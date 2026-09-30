@@ -1,0 +1,858 @@
+<!DOCTYPE html>
+<html lang="de" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Der Vormärz (1815–1848) | Interaktives Bildungsdossier</title>
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- Google Fonts: Playfair Display, Inter, Cinzel -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,700;0,900;1,400;1,700&display=swap" rel="stylesheet">
+
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            burgundy: {
+              50: '#FDF2F2',
+              100: '#F8E1E1',
+              600: '#9B1C1C',
+              800: '#771D1D',
+              900: '#5C1414',
+            },
+            sienna: {
+              400: '#E0A938',
+              500: '#C59B27',
+              600: '#A37C1E',
+            },
+            parchment: {
+              50: '#FAF6EE',
+              100: '#F3ECE0',
+              200: '#E6D9C5',
+            }
+          },
+          fontFamily: {
+            serif: ['"Playfair Display"', 'Georgia', 'serif'],
+            sans: ['"Inter"', 'sans-serif'],
+            cinzel: ['"Cinzel"', 'serif'],
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    :root {
+      --bg-main: #FAF6EE;
+      --bg-card: #FFFFFF;
+      --bg-card-subtle: #F3ECE0;
+      --text-main: #1C1917;
+      --text-muted: #57534E;
+      --border-main: #E7DDCF;
+      --accent-red: #8B1E1E;
+      --accent-gold: #C59B27;
+      --shadow-style: 0 10px 25px -5px rgba(139, 30, 30, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.03);
+    }
+
+    .dark {
+      --bg-main: #0F1115;
+      --bg-card: #171A21;
+      --bg-card-subtle: #222733;
+      --text-main: #F1F5F9;
+      --text-muted: #94A3B8;
+      --border-main: #2D3442;
+      --accent-red: #E53E3E;
+      --accent-gold: #D4AF37;
+      --shadow-style: 0 10px 25px -5px rgba(0, 0, 0, 0.5);
+    }
+
+    body {
+      background-color: var(--bg-main);
+      color: var(--text-main);
+      font-family: 'Inter', sans-serif;
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    .font-serif-title {
+      font-family: 'Playfair Display', Georgia, serif;
+    }
+
+    .editorial-border {
+      border-color: var(--border-main);
+    }
+
+    .bg-custom-card {
+      background-color: var(--bg-card);
+      border-color: var(--border-main);
+    }
+
+    .bg-custom-subtle {
+      background-color: var(--bg-card-subtle);
+    }
+
+    /* Hotspot Pulse Animation */
+    @keyframes pulse-ring {
+      0% { transform: scale(0.95); opacity: 0.8; }
+      50% { transform: scale(1.3); opacity: 0.3; }
+      100% { transform: scale(0.95); opacity: 0.8; }
+    }
+    .hotspot-ring {
+      animation: pulse-ring 2s infinite ease-in-out;
+    }
+
+    /* Poem Highlight Dynamics */
+    .poem-line {
+      transition: all 0.3s ease;
+      padding: 3px 6px;
+      border-radius: 4px;
+      display: block;
+      margin: 2px 0;
+    }
+    
+    /* Highlight Categories */
+    .hl-einheit { background-color: rgba(220, 38, 38, 0.2); border-left: 4px solid #DC2626; font-weight: 600; padding-left: 8px; }
+    .hl-kultur { background-color: rgba(147, 51, 234, 0.2); border-left: 4px solid #9333EA; font-weight: 600; padding-left: 8px; }
+    .hl-freiheit { background-color: rgba(16, 185, 129, 0.2); border-left: 4px solid #10B981; font-weight: 600; padding-left: 8px; }
+    .hl-appell { background-color: rgba(217, 119, 6, 0.2); border-left: 4px solid #D97706; font-weight: 600; padding-left: 8px; }
+
+    /* Heine Highlight Classes */
+    .hl-monarchie { background-color: rgba(220, 38, 38, 0.2); border-left: 4px solid #DC2626; font-weight: 600; padding-left: 8px; }
+    .hl-kirche { background-color: rgba(147, 51, 234, 0.2); border-left: 4px solid #9333EA; font-weight: 600; padding-left: 8px; }
+    .hl-pauperismus { background-color: rgba(217, 119, 6, 0.2); border-left: 4px solid #D97706; font-weight: 600; padding-left: 8px; }
+    .hl-widerstand { background-color: rgba(16, 185, 129, 0.2); border-left: 4px solid #10B981; font-weight: 600; padding-left: 8px; }
+
+    /* Custom scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: var(--bg-main);
+    }
+    ::-webkit-scrollbar-thumb {
+      background: var(--accent-gold);
+      border-radius: 4px;
+    }
+  </style>
+</head>
+<body class="antialiased selection:bg-burgundy-600 selection:text-white">
+
+  <header class="sticky top-0 z-40 backdrop-blur-md bg-opacity-90 transition-colors border-b editorial-border" id="navbar" style="background-color: rgba(var(--bg-card), 0.85);">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+      
+      <!-- Logo / Title -->
+      <a href="#hero" class="flex items-center space-x-3 group">
+        <div class="w-9 h-9 rounded-md bg-burgundy-800 text-sienna-400 flex items-center justify-center font-cinzel font-bold text-lg shadow-md group-hover:scale-105 transition-transform">
+          V
+        </div>
+        <div>
+          <span class="font-serif-title font-bold text-lg sm:text-xl tracking-tight block leading-tight">DER VORMÄRZ</span>
+          <span class="text-xs uppercase tracking-widest text-amber-600 dark:text-amber-400 font-semibold">1815–1848 • BILDUNGSDOSSIER</span>
+        </div>
+      </a>
+
+      <!-- Desktop Nav Jump Links -->
+      <nav class="hidden lg:flex items-center space-x-6 text-sm font-medium">
+        <a href="#zeitstrahl" class="hover:text-burgundy-600 dark:hover:text-amber-400 transition-colors">Zeitstrahl</a>
+        <a href="#zensur" class="hover:text-burgundy-600 dark:hover:text-amber-400 transition-colors">Zensur & Staat</a>
+        <a href="#pauperismus" class="hover:text-burgundy-600 dark:hover:text-amber-400 transition-colors">Pauperismus</a>
+        <a href="#autoren" class="hover:text-burgundy-600 dark:hover:text-amber-400 transition-colors">Autoren & Gedicht-Labor</a>
+        <a href="#karikatur" class="hover:text-burgundy-600 dark:hover:text-amber-400 transition-colors">Denker-Club</a>
+      </nav>
+
+      <!-- Action Buttons -->
+      <div class="flex items-center space-x-3">
+        <button id="themeToggle" onclick="toggleDarkMode()" class="p-2 rounded-lg border editorial-border text-stone-600 dark:text-stone-300 hover:bg-stone-200 dark:hover:bg-stone-800 transition-colors" title="Dunkel-/Hellmodus umschalten">
+          <i class="fa-solid fa-moon dark:hidden text-burgundy-800"></i>
+          <i class="fa-solid fa-sun hidden dark:block text-amber-400"></i>
+        </button>
+
+        <button onclick="toggleMobileMenu()" class="lg:hidden p-2 rounded-lg border editorial-border text-stone-700 dark:text-stone-300">
+          <i class="fa-solid fa-bars text-lg"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- Scroll Progress Indicator -->
+    <div class="w-full bg-stone-200 dark:bg-stone-800 h-1">
+      <div id="scrollProgress" class="bg-gradient-to-r from-burgundy-800 to-sienna-500 h-1 w-0 transition-all duration-150"></div>
+    </div>
+
+    <!-- Mobile Navigation Drawer -->
+    <div id="mobileMenu" class="hidden lg:hidden border-b editorial-border bg-stone-50 dark:bg-stone-900 px-4 pt-3 pb-5 space-y-2 text-sm font-medium">
+      <a href="#zeitstrahl" onclick="toggleMobileMenu()" class="block py-2 border-b border-stone-200 dark:border-stone-800">Zeitleiste 1815–1848</a>
+      <a href="#zensur" onclick="toggleMobileMenu()" class="block py-2 border-b border-stone-200 dark:border-stone-800">Zensur & Unterdrückung</a>
+      <a href="#pauperismus" onclick="toggleMobileMenu()" class="block py-2 border-b border-stone-200 dark:border-stone-800">Soziale Not & Pauperismus</a>
+      <a href="#autoren" onclick="toggleMobileMenu()" class="block py-2 border-b border-stone-200 dark:border-stone-800">Autoren & Gedicht-Labor</a>
+      <a href="#karikatur" onclick="toggleMobileMenu()" class="block py-2">Karikatur & Zeitzeugnisse</a>
+    </div>
+  </header>
+
+  <section id="hero" class="relative min-h-[88vh] flex items-center justify-center overflow-hidden border-b editorial-border">
+    <div class="absolute inset-0 z-0">
+      <img src="hambacher-fest-1832.jpg" 
+           alt="Hambacher Fest 1832" 
+           class="w-full h-full object-cover object-center filter contrast-105 brightness-90 dark:brightness-75"
+           onerror="this.onerror=null; this.src='https://placehold.co/1920x1080/8B1E1E/FFF?text=Das+Hambacher+Fest+1832';">
+      <div class="absolute inset-0 bg-gradient-to-t from-stone-900 via-stone-900/80 to-transparent"></div>
+      <div class="absolute inset-0 bg-burgundy-900/40 mix-blend-multiply"></div>
+    </div>
+
+    <div class="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-20 text-center text-white">
+      <div class="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-sienna-500/20 backdrop-blur-md border border-sienna-400/40 text-sienna-400 text-xs font-semibold uppercase tracking-widest mb-6">
+        <i class="fa-solid fa-landmark"></i> <span>Epoche der Deutschen Geschichte & Literatur</span>
+      </div>
+
+      <h1 class="font-serif-title text-4xl sm:text-6xl md:text-7xl font-bold tracking-tight text-amber-50 drop-shadow-md mb-6 leading-tight">
+        Friede den Hütten!<br><span class="italic text-sienna-400 font-normal">Krieg den Palästen!</span>
+      </h1>
+
+      <p class="max-w-3xl mx-auto text-stone-200 text-lg sm:text-xl font-light leading-relaxed mb-10 drop-shadow">
+        Zwischen der restaurativen Erstarrung des Wiener Kongresses (1815) und dem revolutionären Ausbruch der Märztage (1848): Das interaktive Dossier zum spannungsreichsten Kapitel des deutschen 19. Jahrhunderts.
+      </p>
+
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl mx-auto text-left mb-10">
+        <div class="bg-stone-900/70 backdrop-blur-md p-4 rounded-lg border border-stone-700/60">
+          <span class="block text-2xl font-bold text-sienna-400 font-serif-title">33 Jahre</span>
+          <span class="text-xs text-stone-300">Spannungsfeld zwischen Restauration & Freiheit</span>
+        </div>
+        <div class="bg-stone-900/70 backdrop-blur-md p-4 rounded-lg border border-stone-700/60">
+          <span class="block text-2xl font-bold text-sienna-400 font-serif-title">39 Staaten</span>
+          <span class="text-xs text-stone-300">Zersplitterter Deutscher Bund ohne Nationalstaat</span>
+        </div>
+        <div class="bg-stone-900/70 backdrop-blur-md p-4 rounded-lg border border-stone-700/60">
+          <span class="block text-2xl font-bold text-sienna-400 font-serif-title">Zensur</span>
+          <span class="text-xs text-stone-300">Karlsbader Beschlüsse knebeln Presse & Dichtung</span>
+        </div>
+        <div class="bg-stone-900/70 backdrop-blur-md p-4 rounded-lg border border-stone-700/60">
+          <span class="block text-2xl font-bold text-sienna-400 font-serif-title">Pauperismus</span>
+          <span class="text-xs text-stone-300">Massenarmut treibt Volk auf die Barrikaden</span>
+        </div>
+      </div>
+
+      <div class="flex flex-wrap items-center justify-center gap-4">
+        <a href="#zeitstrahl" class="px-6 py-3.5 rounded-md bg-burgundy-800 hover:bg-burgundy-900 text-white font-semibold text-sm tracking-wide shadow-lg transition-all hover:scale-105 flex items-center space-x-2">
+          <span>Epoche Erkunden</span>
+          <i class="fa-solid fa-arrow-down"></i>
+        </a>
+        <a href="#autoren" class="px-6 py-3.5 rounded-md bg-stone-800/80 hover:bg-stone-800 text-stone-200 border border-stone-600 backdrop-blur-md font-semibold text-sm tracking-wide transition-all flex items-center space-x-2">
+          <i class="fa-solid fa-flask"></i>
+          <span>Zum Gedicht-Labor</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 space-y-24">
+
+    <!-- SEKTION 01: ZEITSTRAHL -->
+    <section id="zeitstrahl" class="scroll-mt-20">
+      <div class="flex items-center space-x-3 mb-2">
+        <span class="text-xs uppercase font-bold tracking-widest text-burgundy-800 dark:text-amber-400">Sektion 01</span>
+        <div class="h-px bg-stone-300 dark:bg-stone-700 flex-grow"></div>
+      </div>
+      
+      <div class="flex flex-col md:flex-row md:items-end justify-between mb-10">
+        <div>
+          <h2 class="font-serif-title text-3xl sm:text-4xl font-bold">Interaktive Zeitleiste (1815–1848)</h2>
+          <p class="text-stone-600 dark:text-stone-400 mt-2 max-w-2xl">
+            Klicken Sie auf die Wendepunkte der Epoche, um historische Hintergründe, Schlüsselereignisse und die Reaktionen der Dichter einzusehen.
+          </p>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-9 gap-2 mb-8" id="timelineButtons"></div>
+
+      <div id="timelineDetailCard" class="bg-custom-card border editorial-border rounded-xl p-6 sm:p-8 shadow-sm transition-all duration-300"></div>
+    </section>
+
+    <!-- SEKTION 02: ZENSUR -->
+    <section id="zensur" class="scroll-mt-20">
+      <div class="flex items-center space-x-3 mb-2">
+        <span class="text-xs uppercase font-bold tracking-widest text-burgundy-800 dark:text-amber-400">Sektion 02</span>
+        <div class="h-px bg-stone-300 dark:bg-stone-700 flex-grow"></div>
+      </div>
+
+      <h2 class="font-serif-title text-3xl sm:text-4xl font-bold mb-4">Restauratives System & Zensurapparat</h2>
+      <p class="text-stone-600 dark:text-stone-400 max-w-3xl mb-10 leading-relaxed">
+        Nach dem Sieg über Napoleon versuchten die Fürsten unter der Führung des österreichischen Staatskanzlers Fürst von Metternich, die alte absolutistische Ordnung wiederherzustellen. Die Angst vor revolutionären Ideen führte zu einem flächendeckenden Spitzel- und Zensurstaat.
+      </p>
+
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+        <div class="lg:col-span-7 space-y-6">
+          <div class="bg-custom-card border editorial-border rounded-xl p-6 flex flex-col sm:flex-row gap-6 shadow-sm hover:shadow-md transition-shadow">
+            <div class="sm:w-1/3 relative overflow-hidden rounded-lg min-h-[160px] cursor-pointer lightbox-trigger" data-img="wiener.jpg" data-caption="Der Wiener Kongress 1814/1815">
+              <img src="wiener.jpg" alt="Wiener Kongress" class="w-full h-full object-cover hover:scale-105 transition-transform duration-300" onerror="this.onerror=null; this.src='https://placehold.co/600x400/8B1E1E/FFF?text=Wiener+Kongress+1815';">
+            </div>
+            <div class="sm:w-2/3 flex flex-col justify-between">
+              <div>
+                <span class="text-xs font-bold text-burgundy-800 dark:text-amber-400 uppercase tracking-wider">1815 • Wiener Kongress</span>
+                <h3 class="font-serif-title text-xl font-bold mt-1">Restauration & Legitimität</h3>
+                <p class="text-sm text-stone-600 dark:text-stone-300 mt-2 leading-relaxed">
+                  Die Großmächte stellten die fürstlichen Privilegien wieder her. Der Wunsch des Bürgertums nach einem deutschen Nationalstaat wurde ignoriert; stattdessen wurde der "Deutsche Bund" als loser Fürstenbund gegründet.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="bg-custom-card border editorial-border rounded-xl p-6 flex flex-col sm:flex-row gap-6 shadow-sm hover:shadow-md transition-shadow">
+            <div class="sm:w-1/3 relative overflow-hidden rounded-lg min-h-[160px] cursor-pointer lightbox-trigger" data-img="kotzebue.jpg" data-caption="Ermordung von Kotzebue (1819) – Auslöser der Karlsbader Beschlüsse">
+              <img src="kotzebue.jpg" alt="Ermordung von Kotzebue" class="w-full h-full object-cover object-top hover:scale-105 transition-transform duration-300" onerror="this.onerror=null; this.src='https://placehold.co/600x400/8B1E1E/FFF?text=Georg+B%C3%BCchner';">
+            </div>
+            <div class="sm:w-2/3 flex flex-col justify-between">
+              <div>
+                <span class="text-xs font-bold text-burgundy-800 dark:text-amber-400 uppercase tracking-wider">1819 • Karlsbader Beschlüsse</span>
+                <h3 class="font-serif-title text-xl font-bold mt-1">Unterdrückung der Opposition</h3>
+                <p class="text-sm text-stone-600 dark:text-stone-300 mt-2 leading-relaxed">
+                  Nach der Ermordung des Dichter Kotzebue verbot Metternich Burschenschaften, überwachte Universitäten und unterwarf Schriften unter 20 Bogen der Vorzensur.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Censorship Simulator -->
+        <div class="lg:col-span-5 bg-stone-900 text-stone-100 rounded-xl p-6 sm:p-8 flex flex-col justify-between border border-stone-800 shadow-lg relative overflow-hidden">
+          <div>
+            <div class="flex items-center justify-between mb-4">
+              <span class="text-xs font-mono text-amber-400 tracking-wider uppercase"><i class="fa-solid fa-stamp mr-1"></i> Zensur-Simulator</span>
+              <span class="text-xs px-2 py-1 rounded bg-stone-800 text-stone-300">Karlsbader Beschluss §4</span>
+            </div>
+            <h3 class="font-serif-title text-2xl font-bold text-amber-50 mb-3">Wie die Zensur Strophen strich</h3>
+            <p class="text-xs text-stone-400 mb-6 leading-relaxed">
+              Zensoren strichen kritische Worte in Gedichten und Flugblättern. Testen Sie den Schalter, um die unzensierte Fassung freizulegen!
+            </p>
+            <div class="p-5 rounded-lg bg-stone-950 border border-stone-800 font-serif leading-relaxed text-sm relative" id="censoredBox">
+              "Wir fordern die <span class="censored-word bg-stone-100 text-stone-100 select-none px-1 rounded transition-colors duration-300">Pressefreiheit</span> und das Recht auf <span class="censored-word bg-stone-100 text-stone-100 select-none px-1 rounded transition-colors duration-300">Freie Meinungsäußerung</span>. Der <span class="censored-word bg-stone-100 text-stone-100 select-none px-1 rounded transition-colors duration-300">Fürst von Metternich</span> knechtet das Volk, während der <span class="censored-word bg-stone-100 text-stone-100 select-none px-1 rounded transition-colors duration-300">König</span> den Reichtum verschwendet!"
+            </div>
+          </div>
+
+          <div class="mt-8 pt-4 border-t border-stone-800 flex items-center justify-between">
+            <span class="text-xs text-stone-400" id="censorshipStatus">Status: <strong class="text-red-400">Streng Zensiert</strong></span>
+            <button onclick="toggleCensorship()" class="px-4 py-2 rounded-md bg-amber-500 hover:bg-amber-600 text-stone-950 font-bold text-xs tracking-wide transition-colors flex items-center space-x-2">
+              <i class="fa-solid fa-eye"></i>
+              <span id="censorBtnText">Zensur Aufheben</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SEKTION 03: PAUPERISMUS -->
+    <section id="pauperismus" class="scroll-mt-20">
+      <div class="flex items-center space-x-3 mb-2">
+        <span class="text-xs uppercase font-bold tracking-widest text-burgundy-800 dark:text-amber-400">Sektion 03</span>
+        <div class="h-px bg-stone-300 dark:bg-stone-700 flex-grow"></div>
+      </div>
+
+      <h2 class="font-serif-title text-3xl sm:text-4xl font-bold mb-4">Soziale Realität & Pauperismus</h2>
+      <p class="text-stone-600 dark:text-stone-400 max-w-3xl mb-10 leading-relaxed">
+        Neben dem politischen Verlangen nach Freiheit war der Vormärz von struktureller Massenarmut geprägt – dem <strong>Pauperismus</strong>.
+      </p>
+
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+        <div class="lg:col-span-6 bg-custom-card border editorial-border rounded-xl p-4 shadow-sm">
+          <div class="relative overflow-hidden rounded-lg cursor-pointer lightbox-trigger" data-img="schlesischen-weber.jpg" data-caption="Carl Wilhelm Hübner: Die schlesischen Weber (1844)">
+            <img src="schlesischen-weber.jpg" alt="Schlesische Weber" class="w-full h-80 object-cover rounded-md hover:scale-105 transition-transform duration-500" onerror="this.onerror=null; this.src='https://placehold.co/800x600/8B1E1E/FFF?text=Die+Schlesischen+Weber+1844';">
+          </div>
+        </div>
+
+        <div class="lg:col-span-6 space-y-6">
+          <div class="bg-custom-card border editorial-border rounded-xl p-6 shadow-sm">
+            <div class="flex items-center space-x-3 text-burgundy-800 dark:text-amber-400 mb-2">
+              <i class="fa-solid fa-person-digging text-xl"></i>
+              <h3 class="font-serif-title text-xl font-bold">Der Schlesische Weberaufstand (1844)</h3>
+            </div>
+            <p class="text-sm text-stone-600 dark:text-stone-300 leading-relaxed mb-4">
+              In den schlesischen Eulengebirgen stürzten die Löhne für Handweber ab. Verzweifelte Weber stürmten die Verlegerhäuser. Der Aufstand wurde blutig niedergeschlagen, löste jedoch eine Welle der Solidarität aus.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SEKTION 04: AUTOREN & INTERAKTIVES GEDICHT-LABOR -->
+    <section id="autoren" class="scroll-mt-20">
+      <div class="flex items-center space-x-3 mb-2">
+        <span class="text-xs uppercase font-bold tracking-widest text-burgundy-800 dark:text-amber-400">Sektion 04</span>
+        <div class="h-px bg-stone-300 dark:bg-stone-700 flex-grow"></div>
+      </div>
+
+      <h2 class="font-serif-title text-3xl sm:text-4xl font-bold mb-3">Autoren & Interaktive Werkanalyse</h2>
+      <p class="text-stone-600 dark:text-stone-400 max-w-3xl mb-12 leading-relaxed">
+        Die Dichter des Vormärz verstanden sich als politische Vorkämpfer für Freiheit und Einheit.
+      </p>
+
+      <!-- Author Cards Grid -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
+        <!-- Heinrich Heine -->
+        <div class="bg-custom-card border editorial-border rounded-xl p-5 shadow-sm hover:shadow-md transition-all flex flex-col justify-between">
+          <div>
+            <div class="relative h-48 rounded-lg overflow-hidden mb-4 cursor-pointer">
+              <img src="heinrichheine.jpg" alt="Heinrich Heine" class="w-full h-full object-cover object-top" onerror="this.onerror=null; this.src='https://placehold.co/400x500/8B1E1E/FFF?text=Heinrich+Heine';">
+              <span class="absolute top-2 right-2 bg-burgundy-800 text-white text-[10px] px-2 py-0.5 rounded font-bold">Junges Deutschland</span>
+            </div>
+            <h3 class="font-serif-title text-xl font-bold">Heinrich Heine</h3>
+            <span class="text-xs text-sienna-500 font-medium">1797–1856 • Paris-Exil</span>
+            <p class="text-xs text-stone-600 dark:text-stone-400 mt-2 leading-relaxed">
+              Satiriker und Romantik-Kritiker. Musste 1831 ins Pariser Exil fliehen.
+            </p>
+          </div>
+        </div>
+
+        <!-- Georg Büchner -->
+        <div class="bg-custom-card border editorial-border rounded-xl p-5 shadow-sm hover:shadow-md transition-all flex flex-col justify-between">
+          <div>
+            <div class="relative h-48 rounded-lg overflow-hidden mb-4">
+              <img src="georgbüchner.jpg" alt="Georg Büchner" class="w-full h-full object-cover object-top" onerror="this.onerror=null; this.src='https://placehold.co/400x500/8B1E1E/FFF?text=Georg+B%C3%BCchner';">
+              <span class="absolute top-2 right-2 bg-red-800 text-white text-[10px] px-2 py-0.5 rounded font-bold">Radikaler Umsturz</span>
+            </div>
+            <h3 class="font-serif-title text-xl font-bold">Georg Büchner</h3>
+            <span class="text-xs text-sienna-500 font-medium">1813–1837 • Gießen</span>
+            <p class="text-xs text-stone-600 dark:text-stone-400 mt-2 leading-relaxed">
+              Verfasser der Flugschrift <em>Der Hessische Landbote</em> und Dramatiker.
+            </p>
+          </div>
+        </div>
+
+        <!-- Annette von Droste-Hülshoff -->
+        <div class="bg-custom-card border editorial-border rounded-xl p-5 shadow-sm hover:shadow-md transition-all flex flex-col justify-between">
+          <div>
+            <div class="relative h-48 rounded-lg overflow-hidden mb-4">
+              <img src="Droste-Hülshoff_2.jpg" alt="Annette von Droste-Hülshoff" class="w-full h-full object-cover object-top" onerror="this.onerror=null; this.src='https://placehold.co/400x500/8B1E1E/FFF?text=Droste-Huelshoff';">
+              <span class="absolute top-2 right-2 bg-amber-700 text-white text-[10px] px-2 py-0.5 rounded font-bold">Biedermeier</span>
+            </div>
+            <h3 class="font-serif-title text-xl font-bold">Annette v. Droste-Hülshoff</h3>
+            <span class="text-xs text-sienna-500 font-medium">1797–1848 • Münsterland</span>
+            <p class="text-xs text-stone-600 dark:text-stone-400 mt-2 leading-relaxed">
+              Vertreterin der Biedermeier-Dichtung mit tiefen psychologischen Einblicken.
+            </p>
+          </div>
+        </div>
+
+        <!-- Hoffmann von Fallersleben -->
+        <div class="bg-custom-card border editorial-border rounded-xl p-5 shadow-sm hover:shadow-md transition-all flex flex-col justify-between">
+          <div>
+            <div class="relative h-48 rounded-lg overflow-hidden mb-4">
+              <img src="Hoffmann.jpg" alt="Hoffmann von Fallersleben" class="w-full h-full object-cover object-top" onerror="this.onerror=null; this.src='https://placehold.co/400x500/8B1E1E/FFF?text=Hoffmann+v.+Fallersleben';">
+              <span class="absolute top-2 right-2 bg-sienna-600 text-white text-[10px] px-2 py-0.5 rounded font-bold">National-Liberal</span>
+            </div>
+            <h3 class="font-serif-title text-xl font-bold">Hoffmann v. Fallersleben</h3>
+            <span class="text-xs text-sienna-500 font-medium">1798–1874 • Helgoland</span>
+            <p class="text-xs text-stone-600 dark:text-stone-400 mt-2 leading-relaxed">
+              Dichter des <em>Liedes der Deutschen</em> (1841). Verlor 1842 wegen seinen <em>Unpolitischen Liedern</em> seine Professur.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- INTERAKTIVES GEDICHT-LABOR -->
+      <div class="bg-custom-card border editorial-border rounded-2xl p-6 sm:p-10 shadow-lg">
+        
+        <!-- Header & Poem Selection Tabs -->
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b editorial-border pb-6 mb-8">
+          <div>
+            <span class="text-xs uppercase font-bold tracking-widest text-burgundy-800 dark:text-amber-400">Interaktives Gedicht-Labor</span>
+            <h3 class="font-serif-title text-2xl sm:text-3xl font-bold mt-1" id="poemLabTitle">
+              August Heinrich Hoffmann von Fallersleben: „Das Lied der Deutschen“ (1841)
+            </h3>
+            <p class="text-xs sm:text-sm text-stone-500 dark:text-stone-400 mt-1">
+              Klicken Sie auf die Kategorien, um die sprachlichen und politischen Kernmotive im Text hervorzuheben.
+            </p>
+          </div>
+
+          <!-- Poem Selector Tabs -->
+          <div class="flex items-center space-x-2 bg-stone-100 dark:bg-stone-800 p-1.5 rounded-lg border editorial-border self-start md:self-auto">
+            <button onclick="switchPoem('fallersleben')" id="tabFallersleben" class="px-3 py-1.5 text-xs font-semibold rounded-md bg-burgundy-800 text-white shadow-sm transition-all">
+              Das Lied der Deutschen
+            </button>
+            <button onclick="switchPoem('heine')" id="tabHeine" class="px-3 py-1.5 text-xs font-semibold rounded-md text-stone-600 dark:text-stone-300 hover:text-stone-900 transition-all">
+              Die schlesischen Weber
+            </button>
+          </div>
+        </div>
+
+        <!-- Dynamic Category Control Buttons -->
+        <div class="flex flex-wrap items-center gap-2 mb-8" id="poemCategoryButtons">
+          <!-- Rendered dynamically by JS -->
+        </div>
+
+        <!-- Dynamic Strophes Display Grid -->
+        <div id="poemContentContainer" class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <!-- Rendered dynamically by JS -->
+        </div>
+
+        <!-- Explanation Banner -->
+        <div id="poemAnalysisInfo" class="mt-8 p-5 rounded-xl bg-custom-subtle border editorial-border text-xs sm:text-sm text-stone-700 dark:text-stone-300 leading-relaxed flex items-start space-x-3">
+          <i class="fa-solid fa-lightbulb text-amber-500 text-lg mt-0.5"></i>
+          <div>
+            <strong class="font-bold text-stone-900 dark:text-amber-200">Analyse-Hinweis:</strong>
+            <span id="poemAnalysisText">Wählen Sie oben eine Kategorie aus, um die entsprechenden Textstellen und ihre historische Bedeutung im Lied der Deutschen genauer zu untersuchen.</span>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- SEKTION 05: KARIKATUR / DENKER-CLUB -->
+    <section id="karikatur" class="scroll-mt-20">
+      <div class="flex items-center space-x-3 mb-2">
+        <span class="text-xs uppercase font-bold tracking-widest text-burgundy-800 dark:text-amber-400">Sektion 05</span>
+        <div class="h-px bg-stone-300 dark:bg-stone-700 flex-grow"></div>
+      </div>
+
+      <h2 class="font-serif-title text-3xl sm:text-4xl font-bold mb-4">Zeitgenössische Karikatur: „Der Denker-Club“</h2>
+      <p class="text-stone-600 dark:text-stone-400 max-w-3xl mb-10 leading-relaxed">
+        Eine der berühmtesten Bildsatiren des Vormärz (ca. 1819/1825). Sie verhöhnt die Knebelung der Meinungsfreiheit durch Maulkörbe.
+      </p>
+
+      <div class="bg-custom-card border editorial-border rounded-xl p-6 sm:p-8 shadow-sm">
+        <div class="relative overflow-hidden rounded-lg cursor-pointer lightbox-trigger" data-img="der-denker-club.jpg" data-caption="Der Denker-Club (1819): 'Wichtige Frage welche in heutiger Sitzung bedacht wird: Wie lange wird uns das Denken wohl noch erlaubt bleiben?'">
+          <img src="der-denker-club.jpg" alt="Der Denker Club" class="w-full h-auto max-h-[500px] object-contain mx-auto rounded-md" onerror="this.onerror=null; this.src='https://placehold.co/900x500/8B1E1E/FFF?text=Der+Denker-Club+1819';">
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="border-t editorial-border bg-stone-900 text-stone-400 py-12">
+    <div class="max-w-7xl mx-auto px-4 text-center text-xs space-y-3">
+      <p class="font-serif-title text-base text-stone-200">Der Vormärz (1815–1848) • Interaktives Bildungsdossier</p>
+      <p>Erstellt als digitales Lehrmaterial für Geschichte & Literatur.</p>
+    </div>
+  </footer>
+
+  <!-- Lightbox Modal -->
+  <div id="lightbox" class="fixed inset-0 z-50 bg-black/90 hidden items-center justify-center p-4" onclick="closeLightbox()">
+    <div class="max-w-4xl max-h-[90vh] flex flex-col items-center" onclick="event.stopPropagation()">
+      <img id="lightboxImg" src="" alt="Großansicht" class="max-h-[75vh] w-auto object-contain rounded shadow-2xl">
+      <p id="lightboxCaption" class="text-stone-300 text-xs sm:text-sm mt-4 text-center max-w-2xl font-serif"></p>
+      <button onclick="closeLightbox()" class="mt-4 px-4 py-1.5 bg-stone-800 text-stone-200 text-xs rounded hover:bg-stone-700">Schließen</button>
+    </div>
+  </div>
+
+  <!-- JAVASCRIPT LOGIK -->
+  <script>
+    /* Dark Mode Toggle */
+    function toggleDarkMode() {
+      document.documentElement.classList.toggle('dark');
+    }
+
+    /* Mobile Menu Toggle */
+    function toggleMobileMenu() {
+      const menu = document.getElementById('mobileMenu');
+      menu.classList.toggle('hidden');
+    }
+
+    /* Scroll Progress Indicator */
+    window.addEventListener('scroll', () => {
+      const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+      const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+      const scrolled = (winScroll / height) * 100;
+      document.getElementById("scrollProgress").style.width = scrolled + "%";
+    });
+
+    /* Censorship Toggle */
+    let isCensored = true;
+    function toggleCensorship() {
+      const words = document.querySelectorAll('.censored-word');
+      const status = document.getElementById('censorshipStatus');
+      const btnText = document.getElementById('censorBtnText');
+
+      isCensored = !isCensored;
+
+      words.forEach(word => {
+        if (isCensored) {
+          word.classList.add('bg-stone-100', 'text-stone-100');
+          word.classList.remove('bg-red-900/30', 'text-amber-300', 'font-bold');
+        } else {
+          word.classList.remove('bg-stone-100', 'text-stone-100');
+          word.classList.add('bg-red-900/30', 'text-amber-300', 'font-bold');
+        }
+      });
+
+      if (isCensored) {
+        status.innerHTML = 'Status: <strong class="text-red-400">Streng Zensiert</strong>';
+        btnText.innerText = 'Zensur Aufheben';
+      } else {
+        status.innerHTML = 'Status: <strong class="text-emerald-400">Unzensierter Klartext</strong>';
+        btnText.innerText = 'Zensur Anwenden';
+      }
+    }
+
+    /* Timeline Data & Logic */
+    const timelineData = [
+      { year: '1815', title: 'Wiener Kongress', text: 'Gründung des Deutschen Bundes; Beginn der Restauration.' },
+      { year: '1817', title: 'Wartburgfest', text: 'Studenten demonstrieren für Nationalstaat und Grundrechte.' },
+      { year: '1819', title: 'Karlsbader Beschlüsse', text: 'Einführung harter Zensur und Verbot der Burschenschaften.' },
+      { year: '1830', title: 'Julirevolution', text: 'Pariser Aufstand bringt neuen Schwung in die Oppositionsbewegung.' },
+      { year: '1832', title: 'Hambacher Fest', text: '30.000 Menschen fordern Freiheit, Demokratie und deutsche Einheit.' },
+      { year: '1834', title: 'Hessischer Landbote', text: 'Georg Büchners revolutionäre Flugschrift: "Friede den Hütten!"' },
+      { year: '1841', title: 'Lied der Deutschen', text: 'Hoffmann v. Fallersleben verfasst die spätere Nationalhymne.' },
+      { year: '1844', title: 'Weberaufstand', text: 'Sozialer Protest der schlesischen Heimweber gegen Ausbeutung.' },
+      { year: '1848', title: 'Märzrevolution', text: 'Barrikadenkämpfe und Volksaufstände erzwingen den Sturz Metternichs, die Wahl der Frankfurter Nationalversammlung in der Paulskirche sowie die Formulierung eines Grundrechtekatalogs – das Ende der Vormärz-Epoche.' }
+    ];
+
+    function renderTimeline() {
+      const container = document.getElementById('timelineButtons');
+      container.innerHTML = '';
+
+      timelineData.forEach((item, index) => {
+        const btn = document.createElement('button');
+        btn.className = `p-3 rounded-lg border editorial-border text-center transition-all ${index === 0 ? 'bg-burgundy-800 text-white font-bold' : 'bg-custom-card hover:bg-stone-200 dark:hover:bg-stone-800'}`;
+        btn.innerHTML = `<span class="block text-xs font-mono opacity-80">${item.year}</span><span class="text-xs font-semibold line-clamp-1">${item.title}</span>`;
+        btn.onclick = () => selectTimelineIndex(index);
+        container.appendChild(btn);
+      });
+
+      selectTimelineIndex(0);
+    }
+
+    function selectTimelineIndex(index) {
+      const buttons = document.getElementById('timelineButtons').children;
+      for (let i = 0; i < buttons.length; i++) {
+        if (i === index) {
+          buttons[i].className = 'p-3 rounded-lg border editorial-border text-center transition-all bg-burgundy-800 text-white font-bold shadow-md';
+        } else {
+          buttons[i].className = 'p-3 rounded-lg border editorial-border text-center transition-all bg-custom-card hover:bg-stone-200 dark:hover:bg-stone-800';
+        }
+      }
+
+      const detail = document.getElementById('timelineDetailCard');
+      const item = timelineData[index];
+      detail.innerHTML = `
+        <div class="flex items-center space-x-3 mb-3">
+          <span class="px-3 py-1 rounded bg-sienna-500 text-stone-950 font-bold font-mono text-sm">${item.year}</span>
+          <h3 class="font-serif-title text-2xl font-bold">${item.title}</h3>
+        </div>
+        <p class="text-stone-700 dark:text-stone-300 text-sm leading-relaxed">${item.text}</p>
+      `;
+    }
+
+    /* Lightbox Handler */
+    document.querySelectorAll('.lightbox-trigger').forEach(el => {
+      el.addEventListener('click', () => {
+        const img = el.getAttribute('data-img');
+        const caption = el.getAttribute('data-caption');
+        document.getElementById('lightboxImg').src = img;
+        document.getElementById('lightboxCaption').innerText = caption || '';
+        document.getElementById('lightbox').classList.remove('hidden');
+        document.getElementById('lightbox').classList.add('flex');
+      });
+    });
+
+    function closeLightbox() {
+      document.getElementById('lightbox').classList.add('hidden');
+      document.getElementById('lightbox').classList.remove('flex');
+    }
+
+    /* POEM LABOR DATA & INTERACTIVE LOGIC */
+    const poemsData = {
+      fallersleben: {
+        title: 'August Heinrich Hoffmann von Fallersleben: „Das Lied der Deutschen“ (1841)',
+        categories: [
+          { id: 'einheit', label: 'Einheit & Territorium', icon: 'fa-flag', color: 'bg-red-100 border-red-300 text-red-800 hover:bg-red-200' },
+          { id: 'kultur', label: 'Kultur & Identität', icon: 'fa-wine-glass-halved', color: 'bg-purple-100 border-purple-300 text-purple-800 hover:bg-purple-200' },
+          { id: 'freiheit', label: 'Rechtsstaat & Freiheit', icon: 'fa-scale-balanced', color: 'bg-emerald-100 border-emerald-300 text-emerald-800 hover:bg-emerald-200' },
+          { id: 'appell', label: 'Appell & Zukunft', icon: 'fa-sun', color: 'bg-amber-100 border-amber-300 text-amber-800 hover:bg-amber-200' }
+        ],
+        explanations: {
+          einheit: '<strong>Einheit & Territorium:</strong> Der Ausdruck „über alles“ war 1841 ein Plädoyer, das Ziel eines geeinten deutschen Nationalstaates über die Interessen der einzelnen Fürstentümer (Kleinstaaterei) zu stellen. Die Flussgrenzen (Maas, Memel, Etsch, Belt) beschrieben das damalige deutsche Sprach- und Bundgebiet.',
+          kultur: '<strong>Kultur & Identität:</strong> Die 2. Strophe betont verbindende kulturelle Werte (Sprache, Geselligkeit, Liedgut), die in Zeiten politischer Zersplitterung ein gemeinsames Identitätsgefühl stiften sollten.',
+          freiheit: '<strong>Rechtsstaat & Freiheit:</strong> Die 3. Strophe verknüpft die nationale Einheit untrennbar mit liberale Werten: Verfassung, Rechtsstaatlichkeit und individuellen Freiheitsrechten. Seit 1991 die alleinige Hymne Deutschlands.',
+          appell: '<strong>Appell & Zukunft:</strong> Der Text ruft die Bürger auf, aktiv und „brüderlich mit Herz und Hand“ an der Verwirklichung eines freien und gerechten Staates mitzuwirken.'
+        },
+        strophes: [
+          {
+            title: 'Strophe 1',
+            lines: [
+              { text: 'Deutschland, Deutschland über alles,', cat: 'einheit' },
+              { text: 'Über alles in der Welt,', cat: 'einheit' },
+              { text: 'Wenn es stets zu Schutz und Trutze', cat: 'einheit appell' },
+              { text: 'Brüderlich zusammenhält.', cat: 'einheit appell' },
+              { text: 'Von der Maas bis an die Memel,', cat: 'einheit' },
+              { text: 'Von der Etsch bis an den Belt –', cat: 'einheit' },
+              { text: 'Deutschland, Deutschland über alles,', cat: 'einheit' },
+              { text: 'Über alles in der Welt!', cat: 'einheit' }
+            ]
+          },
+          {
+            title: 'Strophe 2',
+            lines: [
+              { text: 'Deutsche Frauen, deutsche Treue,', cat: 'kultur' },
+              { text: 'Deutscher Wein und deutscher Sang', cat: 'kultur' },
+              { text: 'Sollen in der Welt behalten', cat: 'kultur' },
+              { text: 'Ihren alten schönen Klang,', cat: 'kultur' },
+              { text: 'Uns zu edler Tat begeistern', cat: 'kultur appell' },
+              { text: 'Unser ganzes Leben lang –', cat: 'kultur appell' },
+              { text: 'Deutsche Frauen, deutsche Treue,', cat: 'kultur' },
+              { text: 'Deutscher Wein und deutscher Sang!', cat: 'kultur' }
+            ]
+          },
+          {
+            title: 'Strophe 3',
+            lines: [
+              { text: 'Einigkeit und Recht und Freiheit', cat: 'freiheit einheit' },
+              { text: 'Für das deutsche Vaterland!', cat: 'freiheit einheit' },
+              { text: 'Danach lasst uns alle streben', cat: 'freiheit appell' },
+              { text: 'Brüderlich mit Herz und Hand!', cat: 'freiheit appell' },
+              { text: 'Einigkeit und Recht und Freiheit', cat: 'freiheit' },
+              { text: 'Sind des Glückes Unterpfand –', cat: 'freiheit' },
+              { text: 'Blüh im Glanze dieses Glückes,', cat: 'appell' },
+              { text: 'Blühe, deutsches Vaterland!', cat: 'appell' }
+            ]
+          }
+        ]
+      },
+      heine: {
+        title: 'Heinrich Heine: „Die schlesischen Weber“ (1844)',
+        categories: [
+          { id: 'monarchie', label: 'Anklage Monarchie', icon: 'fa-crown', color: 'bg-red-100 border-red-300 text-red-800 hover:bg-red-200' },
+          { id: 'kirche', label: 'Anklage Kirche/Gott', icon: 'fa-church', color: 'bg-purple-100 border-purple-300 text-purple-800 hover:bg-purple-200' },
+          { id: 'pauperismus', label: 'Not & Elend', icon: 'fa-triangle-exclamation', color: 'bg-amber-100 border-amber-300 text-amber-800 hover:bg-amber-200' },
+          { id: 'widerstand', label: 'Der dreifache Fluch', icon: 'fa-rotate', color: 'bg-emerald-100 border-emerald-300 text-emerald-800 hover:bg-emerald-200' }
+        ],
+        explanations: {
+          monarchie: '<strong>Anklage Monarchie:</strong> Scharfe Kritik an Friedrich Wilhelm IV. und dem preußischen Absolutismus, der die Not der Arbeiter ignoriert und Demonstrationen niederschlagen lässt.',
+          kirche: '<strong>Anklage Kirche/Gott:</strong> Abkehr von der Religion. Der Vorwurf lautet, Gott habe in der Not nicht geholfen und das Volk mit falschen Hoffnungen getäuscht.',
+          pauperismus: '<strong>Not & Elend:</strong> Beschreibung der verzweifelten Lage der Heimweber, deren Löhne durch die Industrialisierung kollabierten.',
+          widerstand: '<strong>Der dreifache Fluch:</strong> Der Refrain symbolisiert den aktiven politischen Widerstand und die fundamentale Absage an die tragenden Stützen des Staates.'
+        },
+        strophes: [
+          {
+            title: 'Strophe 1',
+            lines: [
+              { text: 'Im düstern Auge keine Träne,', cat: 'pauperismus' },
+              { text: 'Sie sitzen am Webstuhl und knirschen die Zähne:', cat: 'pauperismus' },
+              { text: '„Deutschland, wir weben dein Leichentuch,', cat: 'widerstand' },
+              { text: 'Wir weben hinein den dreifachen Fluch –', cat: 'widerstand' },
+              { text: 'Wir weben, wir weben!“', cat: 'widerstand' }
+            ]
+          },
+          {
+            title: 'Strophe 2',
+            lines: [
+              { text: '„Ein Fluch dem Gotts, zu dem wir gebetet', cat: 'kirche' },
+              { text: 'In Winterskälte und Hungersnöten;', cat: 'pauperismus' },
+              { text: 'Wir haben vergebens gehofft und geharrt,', cat: 'kirche' },
+              { text: 'Er hat uns geäfft und gefoppt und gefarrt –', cat: 'kirche' },
+              { text: 'Wir weben, wir weben!“', cat: 'widerstand' }
+            ]
+          },
+          {
+            title: 'Strophe 3',
+            lines: [
+              { text: '„Ein Fluch dem König, dem König der Reichen,', cat: 'monarchie' },
+              { text: 'Den unser Elend nicht konnte erweichen,', cat: 'monarchie pauperismus' },
+              { text: 'Der den letzten Groschen von uns erpresst', cat: 'monarchie' },
+              { text: 'Und uns wie die Hunde erschießen lässt –', cat: 'monarchie' },
+              { text: 'Wir weben, wir weben!“', cat: 'widerstand' }
+            ]
+          }
+        ]
+      }
+    };
+
+    let currentPoemKey = 'fallersleben';
+    let currentCategory = null;
+
+    function switchPoem(poemKey) {
+      currentPoemKey = poemKey;
+      currentCategory = null;
+
+      // Update Tab Styles
+      const btnFallersleben = document.getElementById('tabFallersleben');
+      const btnHeine = document.getElementById('tabHeine');
+
+      if (poemKey === 'fallersleben') {
+        btnFallersleben.className = 'px-3 py-1.5 text-xs font-semibold rounded-md bg-burgundy-800 text-white shadow-sm transition-all';
+        btnHeine.className = 'px-3 py-1.5 text-xs font-semibold rounded-md text-stone-600 dark:text-stone-300 hover:text-stone-900 transition-all';
+      } else {
+        btnHeine.className = 'px-3 py-1.5 text-xs font-semibold rounded-md bg-burgundy-800 text-white shadow-sm transition-all';
+        btnFallersleben.className = 'px-3 py-1.5 text-xs font-semibold rounded-md text-stone-600 dark:text-stone-300 hover:text-stone-900 transition-all';
+      }
+
+      // Update Title
+      document.getElementById('poemLabTitle').innerText = poemsData[poemKey].title;
+
+      renderPoemLab();
+    }
+
+    function renderPoemLab() {
+      const data = poemsData[currentPoemKey];
+
+      // Render Category Buttons
+      const btnContainer = document.getElementById('poemCategoryButtons');
+      btnContainer.innerHTML = '';
+
+      data.categories.forEach(cat => {
+        const btn = document.createElement('button');
+        const isActive = currentCategory === cat.id;
+        btn.className = `px-3 py-2 rounded-lg border text-xs font-semibold transition-all flex items-center space-x-2 ${isActive ? 'ring-2 ring-burgundy-800 font-bold shadow-sm ' + cat.color : cat.color}`;
+        btn.innerHTML = `<i class="fa-solid ${cat.icon}"></i> <span>${cat.label}</span>`;
+        btn.onclick = () => togglePoemCategory(cat.id);
+        btnContainer.appendChild(btn);
+      });
+
+      // Add Reset Button
+      const resetBtn = document.createElement('button');
+      resetBtn.className = 'px-3 py-2 rounded-lg border border-stone-300 dark:border-stone-700 bg-stone-100 dark:bg-stone-800 text-stone-600 dark:text-stone-300 text-xs font-semibold hover:bg-stone-200 transition-all flex items-center space-x-1.5';
+      resetBtn.innerHTML = `<i class="fa-solid fa-rotate-left"></i> <span>Zurücksetzen</span>`;
+      resetBtn.onclick = () => togglePoemCategory(null);
+      btnContainer.appendChild(resetBtn);
+
+      // Render Poem Cards & Lines
+      const contentContainer = document.getElementById('poemContentContainer');
+      contentContainer.innerHTML = '';
+
+      data.strophes.forEach(strophe => {
+        const card = document.createElement('div');
+        card.className = 'bg-custom-subtle border editorial-border rounded-xl p-5 shadow-sm font-serif leading-relaxed';
+
+        let linesHTML = `<h4 class="font-sans text-xs font-bold uppercase tracking-wider text-stone-500 mb-3">${strophe.title}</h4>`;
+
+        strophe.lines.forEach(line => {
+          const isHighlighted = currentCategory && line.cat.includes(currentCategory);
+          const highlightClass = isHighlighted ? `hl-${currentCategory}` : '';
+
+          linesHTML += `<span class="poem-line text-sm ${highlightClass}">${line.text}</span>`;
+        });
+
+        card.innerHTML = linesHTML;
+        contentContainer.appendChild(card);
+      });
+
+      // Update Explanation Box Text
+      const infoText = document.getElementById('poemAnalysisText');
+      if (currentCategory && data.explanations[currentCategory]) {
+        infoText.innerHTML = data.explanations[currentCategory];
+      } else {
+        infoText.innerText = `Wählen Sie oben eine Kategorie aus, um die entsprechenden Textstellen und ihre historische Bedeutung in „${data.title.split(':')[1]}“ zu untersuchen.`;
+      }
+    }
+
+    function togglePoemCategory(catId) {
+      if (currentCategory === catId) {
+        currentCategory = null;
+      } else {
+        currentCategory = catId;
+      }
+      renderPoemLab();
+    }
+
+    /* Initialize Page Components */
+    document.addEventListener('DOMContentLoaded', () => {
+      renderTimeline();
+      renderPoemLab();
+    });
+  </script>
+</body>
+</html>
